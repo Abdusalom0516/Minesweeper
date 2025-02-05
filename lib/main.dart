@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mine_game/core/utils/responsiveness.dart';
 import 'package:mine_game/presentation/home/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 

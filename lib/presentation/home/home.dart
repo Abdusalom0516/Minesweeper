@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mine_game/controller/alert_dialog.dart';
 import 'package:mine_game/controller/get_score.dart';
 import 'package:mine_game/controller/random_num_maker.dart';
+import 'package:mine_game/controller/saving_local_data.dart';
 import 'package:mine_game/core/constants/colors.dart';
 import 'package:mine_game/core/utils/short_responsiveness.dart';
 import 'package:mine_game/presentation/home/widgets/surface_maker.dart';
@@ -22,23 +23,31 @@ class _HomeScreenState extends State<HomeScreen> {
   int record = 0;
 
   void getRecord() async {
-    record = await getScore();
+    int score = await getScore();
+    print("Current Record");
+    setState(() {
+      record = score;
+    });
   }
 
   void resetGame() {
+    saveScore(currentScore);
     setState(() {
       list = randomNumberMaker();
       pressedStates = List.filled(49, false);
       currentScore = 0;
     });
+    getRecord();
   }
 
   void resetGameInDialog() {
+    saveScore(currentScore);
     setState(() {
       list = randomNumberMaker();
       pressedStates = List.filled(49, false);
       currentScore = 0;
     });
+    getRecord();
     Navigator.pop(context);
   }
 
@@ -108,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: EdgeInsets.only(top: appH(17)),
                 child: Text(
                   "Your Record: $record",
-                  style: TextStyle(color: AppColors.light, fontSize: appW(21)),
+                  style: TextStyle(color: AppColors.light, fontSize: appW(25)),
                 ),
               ),
             ),
